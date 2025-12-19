@@ -1,0 +1,45 @@
+{
+  "favorites": [
+    {
+      "title": "Spaghetti Aglio e Olio",
+      "ingredients": [
+        "spaghetti",
+        "olive oil",
+        "garlic",
+        "chili flakes",
+        "parsley"
+      ],
+      "steps": [
+        "Boil spaghetti",
+        "Saute garlic and chili in oil",
+        "Mix pasta and serve"
+      ],
+      "image_url": "https://placehold.co/600x400/F44336/FFF?text=Aglio+e+Olio",
+      "note": null,
+      "rating": null,
+      "tags": [],
+      "added_on": "2025-11-11T10:47:37.562712Z"
+    }
+  ],
+  "cooking_history": [
+    {
+      "title": "Grilled Chicken Salad",
+      "viewed_on": "2025-11-08T14:15:00Z"
+    }
+  ],
+  "shopping_list": {
+    "Produce": [
+      "lettuce",
+      "lemon juice"
+    ],
+    "Meat & Protein": [
+      "chicken breast"
+    ],
+    "Pantry & Dry Goods": [
+      "olive oil"
+    ],
+    "Spices & Seasoning": [
+      "pepper"
+    ]
+  }
+}

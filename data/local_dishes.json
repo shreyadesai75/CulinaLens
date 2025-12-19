@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Vada Pav",
+    "location": "Mumbai",
+    "description": "A deep-fried potato dumpling placed inside a bread bun (pav) sliced almost in half through the middle.",
+    "image_url": "https://placehold.co/600x400/FF9800/FFF?text=Vada+Pav"
+  },
+  {
+    "title": "Pav Bhaji",
+    "location": "Mumbai",
+    "description": "A fast food dish consisting of a thick vegetable curry served with a soft bread roll.",
+    "image_url": "https://placehold.co/600x400/E91E63/FFF?text=Pav+Bhaji"
+  },
+  {
+    "title": "Chole Bhature",
+    "location": "Delhi",
+    "description": "A combination of chana masala (spicy white chickpeas) and bhatura/puri, a deep-fried bread.",
+    "image_url": "https://placehold.co/600x400/4CAF50/FFF?text=Chole+Bhature"
+  },
+  {
+    "title": "Parathas",
+    "location": "Delhi",
+    "description": "A flatbread native to the Indian subcontinent, prevalent throughout the modern-day nations of India, Sri Lanka, Pakistan, Nepal, Bangladesh, Maldives and Myanmar, where wheat is the traditional staple.",
+    "image_url": "https://placehold.co/600x400/795548/FFF?text=Parathas"
+  },
+  {
+    "title": "Kathi Roll",
+    "location": "Kolkata",
+    "description": "A street-food dish originating from Kolkata, West Bengal, consisting of a skewer-roasted kebab wrapped in a paratha bread.",
+    "image_url": "https://placehold.co/600x400/673AB7/FFF?text=Kathi+Roll"
+  },
+  {
+    "title": "Puchka (Pani Puri)",
+    "location": "Kolkata",
+    "description": "A type of snack that originated in the Indian subcontinent, and is one of the most common street foods in India.",
+    "image_url": "https://placehold.co/600x400/03A9F4/FFF?text=Puchka"
+  }
+]

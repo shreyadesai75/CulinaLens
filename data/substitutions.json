@@ -1,0 +1,59 @@
+{
+  "butter": [
+    "ghee",
+    "olive oil"
+  ],
+  "ghee": [
+    "butter",
+    "olive oil"
+  ],
+  "milk": [
+    "yogurt",
+    "buttermilk",
+    "soy milk"
+  ],
+  "cream": [
+    "greek yogurt",
+    "cottage cheese",
+    "milk"
+  ],
+  "paneer": [
+    "tofu",
+    "cheddar cheese"
+  ],
+  "cheddar cheese": [
+    "paneer",
+    "mozzarella"
+  ],
+  "peanut butter": [
+    "almond butter",
+    "cashew butter"
+  ],
+  "wheat flour": [
+    "all-purpose flour",
+    "atta"
+  ],
+  "oil": [
+    "olive oil",
+    "ghee"
+  ],
+  "green chili": [
+    "red chili",
+    "chili powder"
+  ],
+  "tomato": [
+    "tomato paste (diluted)",
+    "ketchup (small)"
+  ],
+  "potato": [
+    "sweet potato"
+  ],
+  "eggs": [
+    "mashed banana (for baking)",
+    "applesauce"
+  ],
+  "bread": [
+    "tortilla",
+    "roti"
+  ]
+}

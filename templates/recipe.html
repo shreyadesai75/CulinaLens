@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Recipe... - FIntrack Pro</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        #recipe-hero {
+            height: 60vh;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+        }
+        #recipe-hero .container {
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.0));
+            padding-bottom: 2rem;
+            padding-top: 4rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('page_home') }}">
+                <i class="bi bi-egg-fried"></i>
+                FIntrack Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('page_home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('page_profile') }}">
+                            <i class="bi bi-person-circle"></i> Profile & Favorites
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="loading-spinner" class="text-center my-5 p-5">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 fs-5">Loading recipe...</p>
+    </div>
+
+    <div id="error-message" class="container my-5" style="display: none;">
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">Recipe Not Found</h4>
+            <p>Sorry, we couldn't find that recipe. It may have been moved or deleted.</p>
+            <a href="{{ url_for('page_home') }}" class="btn btn-danger">Back to Home</a>
+        </div>
+    </div>
+
+    <div id="recipe-content" style="display: none;">
+        
+        <header id="recipe-hero">
+            <div class="container">
+                <h1 class="display-3 fw-bold" id="recipe-title-hero">Recipe Title</h1>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span id="recipe-badge-time" class="badge fs-6 bg-light text-dark rounded-pill"><i class="bi bi-clock"></i> N/A min</span>
+                    <span id="recipe-badge-servings" class="badge fs-6 bg-light text-dark rounded-pill"><i class="bi bi-people"></i> Serves N/A</span>
+                    <span id="recipe-badge-skill" class="badge fs-6 bg-light text-dark rounded-pill"><i class="bi bi-award"></i> N/A</span>
+                    <span id="recipe-badge-cuisine" class="badge fs-6 bg-light text-dark rounded-pill"><i class="bi bi-globe"></i> N/A</span>
+                </div>
+                <div>
+                    <button class="btn btn-danger btn-lg" id="add-to-fav-btn">
+                        <i class="bi bi-heart-fill"></i> Add to Favorites
+                    </button>
+                    <button class="btn btn-outline-light btn-lg" id="add-to-shop-btn">
+                        <i class="bi bi-clipboard-plus"></i> Add to Shopping List
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container my-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+
+                    <ul class="nav nav-tabs nav-pills nav-fill mb-4" id="recipeTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="instructions-tab" data-bs-toggle="tab" data-bs-target="#instructions-content" type="button" role="tab" aria-controls="instructions-content" aria-selected="true">
+                                <i class="bi bi-list-ol"></i> Ingredients & Instructions
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="nutrition-tab" data-bs-toggle="tab" data-bs-target="#nutrition-content" type="button" role="tab" aria-controls="nutrition-content" aria-selected="false">
+                                <i class="bi bi-bar-chart-line"></i> Detailed Nutrition
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="recipeTabContent">
+                        
+                        <div class="tab-pane fade show active" id="instructions-content" role="tabpanel" aria-labelledby="instructions-tab" tabindex="0">
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <h4 class="mb-3">Ingredients</h4>
+                                    <ul class="list-group list-group-flush" id="ingredient-list">
+                                    </ul>
+                                </div>
+                                <div class="col-lg-8">
+                                    <h4 class="mb-3">Instructions</h4>
+                                    <ol class="list-group list-group-numbered" id="steps-list">
+                                    </ol>
+                                    
+                                    <div class="alert alert-info mt-4" id="substitutions-callout" style="display: none;">
+                                        <h5 class="alert-heading"><i class="bi bi-lightbulb"></i> Smart Substitutions</h5>
+                                        <p>Based on your available ingredients, we suggested substitutes for this recipe:</p>
+                                        <ul id="substitutions-list">
+                                        </ul>
+                                        <p class="mb-0 small">This info is based on your last search.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nutrition-content" role="tabpanel" aria-labelledby="nutrition-tab" tabindex="0">
+                            <h4 class="mb-3">Detailed Nutrition Breakdown</h4>
+                            <p class="text-muted">The following values are approximate and calculated based on the listed ingredients.</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Per Serving (<span id="nutrition-servings-label">N/A</span>)</h5>
+                                    <ul class="list-group" id="nutrition-per-serving-list">
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 mt-3 mt-md-0">
+                                    <h5>Total for Recipe (<span id="total-servings-label">N/A</span> servings)</h5>
+                                    <ul class="list-group" id="nutrition-total-list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white text-center p-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 FIntrack Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="notification-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="bi bi-check-circle-fill rounded me-2 text-success"></i>
+                <strong class="me-auto" id="toast-title">Success!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toast-body">
+                Recipe added to favorites!
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const errorMessage = document.getElementById('error-message');
+            const recipeContent = document.getElementById('recipe-content');
+            
+            const hero = document.getElementById('recipe-hero');
+            const heroTitle = document.getElementById('recipe-title-hero');
+            const badgeTime = document.getElementById('recipe-badge-time');
+            const badgeServings = document.getElementById('recipe-badge-servings');
+            const badgeSkill = document.getElementById('recipe-badge-skill');
+            const badgeCuisine = document.getElementById('recipe-badge-cuisine');
+            const favBtn = document.getElementById('add-to-fav-btn');
+            const shopBtn = document.getElementById('add-to-shop-btn');
+            
+            const ingredientList = document.getElementById('ingredient-list');
+            const stepsList = document.getElementById('steps-list');
+            
+            const nutritionPerServingList = document.getElementById('nutrition-per-serving-list');
+            const nutritionTotalList = document.getElementById('nutrition-total-list');
+            const nutritionServingsLabel = document.getElementById('nutrition-servings-label');
+            const totalServingsLabel = document.getElementById('total-servings-label');
+
+            const toastEl = document.getElementById('notification-toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastBody = document.getElementById('toast-body');
+            const notificationToast = new bootstrap.Toast(toastEl);
+
+            let currentRecipeTitle = '';
+            try {
+                const pathParts = window.location.pathname.split('/');
+                const recipeTitleEncoded = pathParts[pathParts.length - 1];
+                currentRecipeTitle = decodeURIComponent(recipeTitleEncoded);
+                document.title = `${currentRecipeTitle} - FIntrack Pro`;
+            } catch (e) {
+                console.error('Could not parse recipe title from URL.', e);
+                showError();
+                return;
+            }
+
+            const fetchRecipeDetails = async () => {
+                try {
+                    const response = await fetch(`/api/recipe-details/${encodeURIComponent(currentRecipeTitle)}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Recipe not found (HTTP ${response.status})`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    populateHero(data.recipe);
+                    populateIngredientsAndSteps(data.recipe);
+                    populateNutrition(data.recipe, data.detailed_nutrition);
+                    
+                    loadingSpinner.style.display = 'none';
+                    recipeContent.style.display = 'block';
+
+                } catch (error) {
+                    console.error('Error fetching recipe details:', error);
+                    showError();
+                }
+            };
+            
+            function populateHero(recipe) {
+                heroTitle.textContent = recipe.title;
+                
+                const imageUrl = recipe.image_url || `https://placehold.co/1920x600/555/FFF?text=${encodeURIComponent(recipe.title)}`;
+                hero.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('${imageUrl}')`;
+
+                badgeTime.innerHTML = `<i class="bi bi-clock"></i> ${recipe.meta?.time || 'N/A'} min`;
+                badgeServings.innerHTML = `<i class="bi bi-people"></i> Serves ${recipe.meta?.servings || 'N/A'}`;
+                badgeSkill.innerHTML = `<i class="bi bi-award"></i> ${recipe.meta?.skill || 'N/A'}`;
+                badgeCuisine.innerHTML = `<i class="bi bi-globe"></i> ${recipe.meta?.cuisine || 'N/A'}`;
+            }
+
+            function populateIngredientsAndSteps(recipe) {
+                ingredientList.innerHTML = '';
+                recipe.ingredients.forEach(ing => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = ing;
+                    ingredientList.appendChild(li);
+                });
+
+                stepsList.innerHTML = '';
+                recipe.steps.forEach(step => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = step;
+                    stepsList.appendChild(li);
+                });
+            }
+
+            function populateNutrition(recipe, nutrition) {
+                const perServing = nutrition.per_serving || {};
+                const total = nutrition.total || {};
+                const servings = recipe.meta?.servings || 1;
+
+                nutritionServingsLabel.textContent = `1 serving`;
+                totalServingsLabel.textContent = `${servings} serving${servings > 1 ? 's' : ''}`;
+
+                nutritionPerServingList.innerHTML = `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Calories</strong> <span class="badge bg-primary rounded-pill">${(perServing.calories || 0).toFixed(0)} kcal</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Protein</strong> <span>${(perServing.protein || 0).toFixed(1)} g</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Carbs</strong> <span>${(perServing.carbs || 0).toFixed(1)} g</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Fat</strong> <span>${(perServing.fat || 0).toFixed(1)} g</span>
+                    </li>
+                `;
+
+                nutritionTotalList.innerHTML = `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Calories</strong> <span class="badge bg-primary rounded-pill">${(total.calories || 0).toFixed(0)} kcal</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Protein</strong> <span>${(total.protein || 0).toFixed(1)} g</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Carbs</strong> <span>${(total.carbs || 0).toFixed(1)} g</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Fat</strong> <span>${(total.fat || 0).toFixed(1)} g</span>
+                    </li>
+                `;
+            }
+
+            function showError() {
+                loadingSpinner.style.display = 'none';
+                errorMessage.style.display = 'block';
+                recipeContent.style.display = 'none';
+            }
+
+            function showToast(title, body, iconClass = 'text-success') {
+                toastTitle.innerHTML = `<i class="bi bi-check-circle-fill rounded me-2 ${iconClass}"></i> ${title}`;
+                toastBody.textContent = body;
+                notificationToast.show();
+            }
+            
+            favBtn.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/favorites', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ title: currentRecipeTitle })
+                    });
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showToast('Success!', `Saved '${currentRecipeTitle}' to favorites.`);
+                        favBtn.classList.add('disabled');
+                        favBtn.innerHTML = '<i class="bi bi-heartbreak-fill"></i> Saved!';
+                    } else {
+                        throw new Error(result.error || 'Failed to save');
+                    }
+                } catch (error) {
+                    console.error('Error saving favorite:', error);
+                    showToast('Error', 'Could not save favorite. Please try again.', 'text-danger');
+                }
+            });
+
+            shopBtn.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/shopping-list', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ recipes: [currentRecipeTitle] })
+                    });
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showToast('Success!', `Added ingredients for '${currentRecipeTitle}' to your profile.`);
+                        shopBtn.classList.add('disabled');
+                    } else {
+                        throw new Error(result.error || 'Failed to add to list');
+                    }
+                } catch (error) {
+                    console.error('Error adding to shopping list:', error);
+                    showToast('Error', 'Could not add to shopping list.', 'text-danger');
+                }
+            });
+
+            if (currentRecipeTitle) {
+                fetchRecipeDetails();
+            } else {
+                showError();
+            }
+        });
+    </script>
+</body>
+</html>

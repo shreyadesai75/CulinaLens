@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Spaghetti Aglio e Olio",
+    "ingredients": ["spaghetti", "olive oil", "garlic", "chili flakes", "parsley"],
+    "steps": ["Boil spaghetti", "Saute garlic and chili in oil", "Mix pasta and serve"],
+    "image_url": "https://placehold.co/600x400/F44336/FFF?text=Aglio+e+Olio",
+    "cuisine": "italian",
+    "taste_tags": ["spicy", "savory"],
+    "diet": ["vegetarian", "vegan"],
+    "time": 20,
+    "skill": "beginner",
+    "servings": 2
+  },
+  {
+    "title": "Paneer Butter Masala",
+    "ingredients": ["paneer", "butter", "cream", "tomato", "onion", "spices", "garam masala"],
+    "steps": ["Cook onions and tomatoes", "Add spices", "Add paneer and cream", "Serve hot"],
+    "image_url": "https://placehold.co/600x400/FF9800/FFF?text=Paneer+Masala",
+    "cuisine": "indian",
+    "taste_tags": ["spicy", "savory"],
+    "diet": ["vegetarian"],
+    "time": 35,
+    "skill": "intermediate",
+    "servings": 4
+  },
+  {
+    "title": "Grilled Chicken Salad",
+    "ingredients": ["chicken breast", "lettuce", "olive oil", "lemon juice", "pepper"],
+    "steps": ["Grill chicken", "Mix salad ingredients", "Add dressing and chicken", "Serve"],
+    "image_url": "https://placehold.co/600x400/4CAF50/FFF?text=Chicken+Salad",
+    "cuisine": "american",
+    "taste_tags": ["savory", "tangy"],
+    "diet": ["high-protein", "keto"],
+    "time": 25,
+    "skill": "beginner",
+    "servings": 2
+  },
+  {
+    "title": "Vegan Buddha Bowl",
+    "ingredients": ["quinoa", "chickpeas", "spinach", "avocado", "olive oil"],
+    "steps": ["Cook quinoa", "Roast chickpeas", "Assemble with veggies", "Serve with dressing"],
+    "image_url": "https://placehold.co/600x400/8BC34A/FFF?text=Buddha+Bowl",
+    "cuisine": "fusion",
+    "taste_tags": ["mild", "savory"],
+    "diet": ["vegan", "vegetarian", "gluten-free"],
+    "time": 30,
+    "skill": "beginner",
+    "servings": 2
+  }
+]
