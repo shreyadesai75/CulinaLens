@@ -43,7 +43,6 @@ def load_nutrition_from_csv(file_path: str):
             count = 0
             for row in reader:
                 try:
-                    # Normalize the ingredient name to use as the key
                     name = normalize(row['ingredient_name'])
                     if not name:
                         continue
@@ -59,7 +58,7 @@ def load_nutrition_from_csv(file_path: str):
                     print(f"WARN [Nutrition]: Skipping invalid row for '{row.get('ingredient_name')}'")
                 except KeyError:
                     print("ERROR [Nutrition]: CSV file must have columns: 'ingredient_name', 'calories_100g', 'protein_100g', 'carbs_100g', 'fat_100g'")
-                    _NUTRITION_DB = {} # Clear db on fatal error
+                    _NUTRITION_DB = {} 
                     return
 
     except FileNotFoundError:
