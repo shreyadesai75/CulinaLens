@@ -21,7 +21,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 try:
     RECIPES_PATH = os.path.join(DATA_DIR, "recipes_sample.json")
     ALL_RECIPES = load_recipes(RECIPES_PATH)
-    print(f"✅ [App] Successfully loaded {len(ALL_RECIPES)} recipes.")
+    print(f" [App] Successfully loaded {len(ALL_RECIPES)} recipes.")
 
     NUTRITION_PATH = os.path.join(DATA_DIR, "nutrition.csv")
     nutrition.load_nutrition_from_csv(NUTRITION_PATH)
@@ -30,7 +30,7 @@ try:
     substitutes.load_substitutions_from_json(SUBSTITUTIONS_PATH)
 
 except Exception as e:
-    print(f"❌ CRITICAL ERROR: Could not load data files on startup.")
+    print(f"CRITICAL ERROR: Could not load data files on startup.")
     print(e)
     ALL_RECIPES = []
 
