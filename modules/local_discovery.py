@@ -16,14 +16,14 @@ try:
         with open(_DATA_PATH, 'r', encoding='utf-8') as f:
             _DISH_DATABASE = json.load(f)
         
-        print(f"✅ [local_discovery] Successfully loaded {len(_DISH_DATABASE)} local dishes from JSON.")
+        print(f" [local_discovery] Successfully loaded {len(_DISH_DATABASE)} local dishes from JSON.")
     
     else:
-        print(f"⚠️ [local_discovery] WARNING: Could not find 'data/local_dishes.json'.")
-        print(f"    -> Searched at path: {_DATA_PATH}")
+        print(f" [local_discovery] WARNING: Could not find 'data/local_dishes.json'.")
+        print(f"Searched at path: {_DATA_PATH}")
 
 except Exception as e:
-    print(f"❌ [local_discovery] CRITICAL ERROR loading 'data/local_dishes.json': {e}")
+    print(f" [local_discovery] CRITICAL ERROR loading 'data/local_dishes.json': {e}")
     _DISH_DATABASE = []
 
 
