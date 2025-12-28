@@ -1,6 +1,3 @@
-# modules/nutrition.py
-
-
 import os
 import csv
 import unicodedata
@@ -14,7 +11,6 @@ _NON_PRINTABLE_RE = re.compile(r"[\u200B\u200C\u200D\uFEFF]")
 _MULTI_SPACE_RE = re.compile(r"\s+")
 
 def normalize(text: str) -> str:
-    """Cleans and lowercases text for matching."""
     if not isinstance(text, str):
         return ""
     s = unicodedata.normalize("NFKC", text)
@@ -73,9 +69,6 @@ def load_nutrition_from_csv(file_path: str):
 
 
 def lookup(ingredient: str) -> Optional[Dict[str, float]]:
-    """
-    Return per-100g nutrition dict or None from the in-memory database.
-    """
     if not ingredient or not isinstance(ingredient, str):
         return None
         
@@ -123,7 +116,7 @@ def calculate_recipe_nutrition(recipe: Dict[str, Any], servings: int = 1) -> Dic
         return {"total": empty_totals, "per_serving": empty_totals}
         
     ings = recipe.get("ingredients", []) or []
-    total = summarize(ings) # This is the sum of all ingredients per-100g
+    total = summarize(ings) 
     
     recipe_servings = int(recipe.get("servings", 1) or 1)
     
